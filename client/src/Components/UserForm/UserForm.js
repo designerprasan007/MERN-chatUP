@@ -58,8 +58,7 @@ const UserForm = ({history}) =>{
     	formdata.append('name', userformdata.username);
     	formdata.append('bio', userformdata.userbio);
     	formdata.append('profilepic', imgdata);
-    	dispatch(AddUserDataAction(formdata));
-		history.push('/user');
+    	dispatch(AddUserDataAction(formdata, history));
     }
 
 

@@ -12,7 +12,7 @@ export const RegisterUserAction = (usernumber) =>  async(dispatch) =>{
 	}
 }
 
-export const AddUserDataAction = (formdata) => async(dispatch, getState) =>{
+export const AddUserDataAction = (formdata, history) => async(dispatch, getState) =>{
 	try{
 		const  {
 		AuthReducer : {userdata}
@@ -21,7 +21,7 @@ export const AddUserDataAction = (formdata) => async(dispatch, getState) =>{
 	const {data} = await addUserdataApi(formdata, token);
 	localStorage.setItem('Userinfo', JSON.stringify(data))
 	dispatch({type:'AuthUser', payload:data});
-	console.log(data);
+	history.push('/user');
 	
 	}
 	catch(e){}

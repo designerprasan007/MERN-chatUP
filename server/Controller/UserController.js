@@ -53,7 +53,7 @@ const updateUser = async(req, res) =>{
 		if(!req.file){
 			const update =	await User.findByIdAndUpdate(userid,
 			 { 
-			 	username: name,
+			 	username: name.toLowerCase(),
 			 	userbio: bio,
 			 	userPic: preUser.userPic ? preUser.userPic : 'staticpic.png',
 			 	randomName: preUser.randomName ? preUser.randomName : randomName,
@@ -70,7 +70,7 @@ const updateUser = async(req, res) =>{
 			});
 			const update =	await User.findByIdAndUpdate(userid,
 			 { 
-			 	username: name,
+			 	username: name.toLowerCase(),
 			 	userbio: bio,
 			 	userPic: req.file.filename,
 			 	randomName: preUser.randomName ? preUser.randomName : randomName,
@@ -95,7 +95,7 @@ const addFriend = async(req, res) =>{
 	const {friendname, friendnum} = req.body;
 	const userid =  req.user._id;
 	const user1 = req.user.username;
-	const user2 = friendname;
+	const user2 = friendname.toLowerCase();
 	const user1num = req.user.usernumber;
 	function rand(length, current) {
 	  current = current ? current : '';

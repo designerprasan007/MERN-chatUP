@@ -1,7 +1,9 @@
-const {addUser, getUser, removeUser, VideoCallUser, AnswerCall, AcceptedCall} = require('../Middleware/MessagingUser');
+const {addUser, getUser, removeUser, VideoCallUser, AnswerCall, AcceptedCall, getUserInRoom} = require('../Middleware/MessagingUser');
 const moment = require('moment');
 
 const Message = require('../Models/MessagingModel'); 
+const User = require('../Models/UserModel');
+
 
 const Messaging = (io) =>{
 	io.on('connect', (socket) =>{
@@ -16,7 +18,26 @@ const Messaging = (io) =>{
 
 		socket.on('sendMessage', async (msg, cb) =>{
 			const curuser = getUser(socket.id);
-			const {roomname, message, name, loginuser} = msg
+			const {roomname, message, name, loginuser} = msg;
+
+			// const availableUser = getUserInRoom(roomname);
+
+			// console.log(loginuser, 'loginuser');
+
+
+			// const loggedinUser = Object.values(availableUser).length;
+			// if(loggedinUser <= 1){
+			// 	console.log(availableUser, 'one user');
+			// } 
+			// else{
+			// 	console.log(availableUser, 'two users');
+			// }
+			const data = await User.updateMany({"friends.roomname": roomname}, {
+				$set:
+				 {
+				 	"friends.$.lastmsg": message
+				 }
+			});
 			if(!curuser) return
 	 		const time = moment().format('M/D/YYYY H:mm').valueOf();
 			const unixtime = moment(time, "M/D/YYYY H:mm").unix();

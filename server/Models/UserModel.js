@@ -28,7 +28,8 @@ const UserSchema = new mongoose.Schema({
 			accepted:{
 				type:Boolean,
 				default:true
-			}
+			},
+			lastmsg:String
 		}],
 	created:{
 		type: Date,

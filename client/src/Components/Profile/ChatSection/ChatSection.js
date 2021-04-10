@@ -73,7 +73,7 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
             setMessages([...messages, message]);
             const messageArea = document.getElementById('chatSection');
 			messageArea.scrollTop = messageArea.scrollHeight;
-			if(message.user === loginuser){
+			if(message.user !== loginuser){
             	const audioEl = document.getElementsByClassName("msgtone")[0]
 				audioEl.play()	
             }

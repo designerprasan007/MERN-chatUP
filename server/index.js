@@ -6,6 +6,14 @@ const socketio = require('socket.io');
 const database = require('./config/database');
 const Messaging = require('./Utils/Messaging');
 const path = require('path');
+const https = require('https');
+const helmet = require('helmet');
+const fs = require('fs');
+
+const options = {
+	key: fs.readFileSync('/etc/letsencrypt/live/demo.conitor.in/privkey.pem'),
+	cert: fs.readFileSync('/etc/letsencrypt/live/demo.conitor.in/cert.pem')
+}
 
 const PORT = process.env.PORT || 5000;
 
@@ -20,21 +28,19 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(morgan('dev'));
 app.use(cors());
+app.use(helmet());
 
 app.use(express.static(path.join(__dirname, 'ProfilePic')));
 
 app.use('/api/messages', messagerouter);
 app.use('/auth/users', userRouter);
 
-const server = http.createServer(app);
+const server = https.createServer(options, app);
 
 
 const io = socketio(server);
 
 Messaging(io);
-
-
-
 
 
 server.listen(PORT, () =>{

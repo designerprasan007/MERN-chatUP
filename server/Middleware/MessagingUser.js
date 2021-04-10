@@ -40,7 +40,10 @@ const AnswerCall = (userToCall, roomname) =>  {
     return users.filter((user) => user.roomname === roomname && user.id !== userToCall);
 }
 
-const getUserInRoom = (room) => users.filter((user) => user.room === room)
+const getUserInRoom = (roomname) => {
+    roomname = roomname.trim().toLowerCase();
+    return users.filter((user) => user.roomname === roomname)
+}
 
 
 module.exports = { addUser, removeUser, getUser, getUserInRoom, VideoCallUser, AnswerCall, AcceptedCall}
