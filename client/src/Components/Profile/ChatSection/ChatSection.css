@@ -1,0 +1,84 @@
+.exitBtn{
+    font-size: 30px;
+}
+
+.exitClass{
+  font-size: 15px;
+  color: white;
+}
+.chatSection{
+  height: 780px;
+  overflow-y:scroll;
+  background-color:black;
+}
+.MsgInput{
+  width: 95%;
+}
+
+.headerIcons{
+  display: flex;
+}
+
+.messageForm{
+  display: flex;
+}
+@media only screen and (min-width: 767px) {
+    .exitBtn {
+      display: none;
+    }
+  }
+@media only screen and (max-width: 767px) {
+  .exitBtn {
+    display: block;
+    font-size: 20px;
+    right: 5%;
+    position: absolute;
+    top: 28px;
+  }
+  .chatSection{
+    height: 450px;
+    overflow-y:scroll
+  }
+}
+@media only screen and (min-width: 410px) and (max-height: 825px){
+  .chatSection{
+    height: 635px;
+    overflow-y:scroll
+  }
+}
+
+@media only screen and (min-width: 410px) and (max-height: 740px){
+  .chatSection{
+    height: 552px !important;
+    overflow-y:scroll;
+  }
+}
+
+@media only screen and (min-width: 375px) and (max-height: 815px){
+  .chatSection{
+    height: 625px;
+    overflow-y:scroll
+  }
+}
+
+
+@media only screen and (min-width: 410px) and (max-height: 735px){
+  .chatSection{
+    height: 550px;
+    overflow-y:scroll
+  }
+}
+
+@media only screen and (min-width: 320px) and (max-height: 570px){
+  .chatSection{
+    height: 388px;
+    overflow-y:scroll
+  }
+}
+
+@media only screen and (min-width: 375px) and (max-height: 670px){
+  .chatSection{
+    height: 480px;
+    overflow-y:scroll
+  }
+}

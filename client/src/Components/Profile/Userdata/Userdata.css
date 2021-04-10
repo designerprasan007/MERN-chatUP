@@ -1,0 +1,21 @@
+.respFont{
+	font-size: 20px;
+}
+
+.uName{
+	color: white;
+}
+.profileImg{
+	border: 50%;
+}
+.proImg{
+	height: 100px !important;
+	width: 100px;
+}
+@media only screen and (max-width: 600px) {
+
+	.respFont{
+		font-size: 10px;
+	}
+
+}

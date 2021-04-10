@@ -1,0 +1,9 @@
+.mobResp{
+	display: none !important;
+}
+
+@media only screen and (max-width: 450px) {
+	.mobResp{
+		display: none !important;
+	}
+}

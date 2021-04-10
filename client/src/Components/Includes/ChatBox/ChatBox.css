@@ -1,0 +1,33 @@
+.msgTime{
+	font-size: 10px;
+}
+.list-group-item >p {
+	line-height: 5px;
+}
+.myMessage{
+	background-color:rgba(30,0,50,0.3); 
+	border-top-right-radius: 20px;
+	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 20px;
+	font-size: 15px;
+}
+.friendMessage{
+	background-color:rgba(100,100,150,0.5); 
+	border-top-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 20px;
+	font-size: 15px;
+}
+.list-group-item{
+	border:none !important;
+	background-color:rgba(0,0,0,0.1) !important;
+	color: white;
+}
+.loadBtn{
+	right: 37%;
+	position: absolute;
+	z-index: 999;
+}
+.list-group{
+	background-color: black;
+}
