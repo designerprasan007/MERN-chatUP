@@ -6,7 +6,6 @@ const Contacts = ({getUser, userdata, handleAddShow}) =>{
 	const friends = userdata?.user?.friends; 
 	const userPic = friends[0]?.user?.userPic;
 
-	console.log(friends);
 
 	return(
 			<div className="contactList">

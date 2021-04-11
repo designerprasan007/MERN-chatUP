@@ -1,7 +1,9 @@
 import {useState, useEffect, useRef} from 'react';
-import { useSelector} from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 import { Modal } from 'react-bootstrap'
 
+	
+import {NewMessageState} from '../../../actions/MessageAction';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPaperPlane} from '@fortawesome/free-solid-svg-icons'
@@ -22,6 +24,7 @@ import './ChatSection.css';
 let socket;
 
 const ChatSection = ({presentUser, hideChat, userdata}) =>{
+	const dispatch = useDispatch();
     const audio_tag = useRef(null);
     
 
@@ -71,6 +74,7 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 	useEffect(() =>{
 		socket.on('message', (message) =>{
             setMessages([...messages, message]);
+            dispatch(NewMessageState(message, roomname));
             const messageArea = document.getElementById('chatSection');
 			messageArea.scrollTop = messageArea.scrollHeight;
 			if(message.user !== loginuser){

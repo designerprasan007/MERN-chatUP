@@ -34,3 +34,11 @@ export const LoadMoreMessge = (roomname, start, end) => async(dispatch, getState
 		console.log(e);
 	}
 }
+
+export const NewMessageState = (message, roomname) => async(dispatch) =>{
+	let msg = message.text
+	if(roomname !== ''){
+		const data = {msg, roomname}
+		dispatch({type:'NEW_MESSAGE', payload:data});
+	}
+}
