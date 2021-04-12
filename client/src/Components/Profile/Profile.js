@@ -2,7 +2,6 @@ import {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import { Modal } from 'react-bootstrap'
 import {GetMessageFunc} from '../../actions/MessageAction';
-
 import {
 	BrowserView,
 	MobileView
@@ -26,7 +25,6 @@ const Profile = ({history}) =>{
 
 
 	const {userdata} = useSelector((state) => state.AuthReducer);
-
 
 	useEffect(() =>{
 		if(userdata?.user?.password === "false"){

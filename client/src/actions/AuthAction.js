@@ -1,4 +1,4 @@
-import {RegisterUser, addUserdataApi, updatePassApi, LoginApi, AddfriendApi} from '../api';
+import {RegisterUser, addUserdataApi, updatePassApi, LoginApi, AddfriendApi, LogoutApi} from '../api';
 
 
 export const RegisterUserAction = (usernumber) =>  async(dispatch) =>{
@@ -67,6 +67,20 @@ export const AddFriendAction = (friend) => async(dispatch, getState) =>{
 	}
 	catch(e) {
 		dispatch({type:"FRIEND_NO_EXIST", payload:e.message});
+	}
+}
+
+export const LogoutUserFun = () => async(dispatch, getState) =>{
+	try{	
+		const {
+			AuthReducer: {userdata}
+		} = getState();
+		const token = userdata.token;
+		await LogoutApi(token);
+		localStorage.removeItem("Userinfo");
+		window.location = window.location.origin;
+	}catch(e){
+		console.log(e)
 	}
 }
 

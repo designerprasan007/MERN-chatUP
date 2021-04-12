@@ -24,6 +24,12 @@ export const updatePassApi = (password, token) => axios.post(`${AuthURL}auth/use
 
 export const LoginApi = (formdata) => axios.post(`${AuthURL}auth/users/login`, formdata);
 
+export const LogoutApi = (token) => axios.post(`${AuthURL}auth/users/logout`, {}, {
+	headers:{
+		Authorization: 'Bearer ' + token
+	}
+})
+
 export const AddfriendApi = (friend, token) => axios.post(`${AuthURL}auth/users/addfriend`, friend, {
 	headers:{
 		Authorization: 'Bearer ' + token
@@ -38,6 +44,7 @@ export const GetMessage = (roomname, start, end, token) => axios.post(`${Message
 		Authorization: 'Bearer ' + token
 	}
 });
+
 
 // block User
 

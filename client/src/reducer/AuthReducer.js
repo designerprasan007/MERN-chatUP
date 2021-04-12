@@ -7,7 +7,7 @@ export const AuthReducer =(state={}, action) => {
 		case 'LOGIN_ERROR':
 			return{loginerror: action.payload};
 		case 'NEW_MESSAGE':
-				state.userdata.user.friends.filter((fri) => fri.roomname === action.payload.roomname ? fri.lastmsg = action.payload.msg : '');
+				state.userdata.user.friends.filter((fri) => fri.roomname === action.payload.roomname ? fri.lastmsg = action.payload.msg : fri.lastmsg);
 				return state
 		default:
 			return state

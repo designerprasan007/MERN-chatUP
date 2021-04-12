@@ -32,6 +32,12 @@ const LoginUser = async(req, res) =>{
 		
 		if(!isMatch) return res.status(403).json({success: false, message:'Invalid Password'});
 
+		const userid = checkuser._id;
+
+		await User.findByIdAndUpdate(userid,{
+			isOnline: true
+		})
+
 		sendToken(checkuser, 200, res);	
 	}
 	catch(e){
@@ -197,6 +203,14 @@ const updatePassword = async(req, res) =>{
 // 	}
 // }
 
+const UserLogout = async(req, res) =>{
+	const userid = req.user._id;
+	await User.findByIdAndUpdate(userid,{
+			isOnline: false
+		});
+	res.send('loggedout');
+}
+
 const sendToken = (user, status, res) => {
 	const token = user.getSignedToken();
 	const password = user.password ? 'true' : 'false';
@@ -215,4 +229,4 @@ const sendToken = (user, status, res) => {
 
 
 
-module.exports = {addNewUser, addFriend, updateUser, updatePassword, LoginUser};
+module.exports = {addNewUser, addFriend, updateUser, updatePassword, LoginUser, UserLogout};

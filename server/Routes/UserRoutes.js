@@ -5,7 +5,7 @@ const multer  = require('multer');
 
 
 const {getPrivateData} = require('../Middleware/Privatedata');
-const {addNewUser, addFriend, updateUser, updatePassword, LoginUser} = require('../Controller/UserController');
+const {addNewUser, addFriend, updateUser, updatePassword, LoginUser, UserLogout} = require('../Controller/UserController');
 
 
 const path = require('path');
@@ -42,6 +42,7 @@ user.post('/login', LoginUser)
 
 user.post('/addfriend', getPrivateData, addFriend);
 
+user.post ('/logout', getPrivateData, UserLogout);
 
 // block User
 

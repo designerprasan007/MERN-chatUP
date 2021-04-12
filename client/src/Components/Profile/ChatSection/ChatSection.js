@@ -54,8 +54,8 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 		messageArea.scrollTop = messageArea.scrollHeight;
 		setRoomname(room);
         socket = io(ENDPOINT, {transports: ['websocket']});
-        socket.emit('join', {name, room}, () =>{});
-      
+        if(socket && room ) socket.emit('join', {name, room}, () =>{});
+       
         return () =>{
             socket.emit('disconnec');
             socket.off();

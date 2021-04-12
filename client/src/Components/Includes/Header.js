@@ -1,17 +1,19 @@
 import {Dropdown} from 'react-bootstrap';
 import {Link} from 'react-router-dom'
+import {useDispatch} from 'react-redux';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faBars, faCommentDots} from '@fortawesome/free-solid-svg-icons'
+import {LogoutUserFun} from '../../actions/AuthAction'; 
 
 import './Header.css';
 const Header = ({history}) =>{
+	const dispatch = useDispatch();
 	const setPasstoLocal = () =>{
 		localStorage.setItem('password', 'false')
 	}
 	const LogoutFun = () =>{
-		localStorage.removeItem("Userinfo");
-		window.location = window.location.origin;
+		dispatch(LogoutUserFun());
 	}
 	return(
 			<div className="container-fluid bg-dark text-light py-2 headerClass">

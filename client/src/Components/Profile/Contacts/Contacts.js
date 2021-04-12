@@ -3,10 +3,11 @@ import staticImg from '../../../Assets/Images/staticpic.png';
 
 import './Contacts.css';
 const Contacts = ({getUser, userdata, handleAddShow}) =>{
+	let userPic
 	const friends = userdata?.user?.friends; 
-	const userPic = friends[0]?.user?.userPic;
-
-
+	if(friends){
+	  userPic = friends[0]?.user?.userPic;
+	}
 	return(
 			<div className="contactList">
 				<ul className="list-group">
@@ -26,7 +27,10 @@ const Contacts = ({getUser, userdata, handleAddShow}) =>{
 											data-num={friend?.friendnum}
 											data-bio={friend?.user?.userbio}>
 											{friend?.friendname}</span>
-											<p className="pl-3 pt-2 lstMsg">{friend?.lastmsg}</p>
+											<span className="UnreadMsg">{friend?.unreadMsg}</span>
+											<br/>
+											<br/>
+											<span className="pl-3 pt-2 lstMsg">{friend?.lastmsg}</span>
 									</section>
 									</div>
 								</div>

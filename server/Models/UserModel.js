@@ -29,8 +29,16 @@ const UserSchema = new mongoose.Schema({
 				type:Boolean,
 				default:true
 			},
-			lastmsg:String
+			lastmsg:String,
+			unreadMsg:{
+				type:Number,
+				default:0
+			},
 		}],
+	isOnline:{
+		type:Boolean,
+		default:false
+	},
 	created:{
 		type: Date,
 		required: true,

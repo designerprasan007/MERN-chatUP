@@ -19,27 +19,34 @@ const Messaging = (io) =>{
 		socket.on('sendMessage', async (msg, cb) =>{
 			const curuser = getUser(socket.id);
 			const {roomname, message, name, loginuser} = msg;
+			if(!roomname) return
+			
+			const availableUser = getUserInRoom(roomname);
+			// getting activate User from the socket room
+			const loggedinUser = Object.values(availableUser).length;
 
-			// const availableUser = getUserInRoom(roomname);
+			// getting db data of offline User
+			const users = await User.findOne({$and :[{"friends.roomname": roomname}, {"isOnline" : false}]});
+			let count = users.friends[0].unreadMsg;
 
-			// console.log(loginuser, 'loginuser');
-
-
-			// const loggedinUser = Object.values(availableUser).length;
-			// if(loggedinUser <= 1){
-			// 	console.log(availableUser, 'one user');
-			// } 
-			// else{
-			// 	console.log(availableUser, 'two users');
-			// }
-			const data = await User.updateMany({"friends.roomname": roomname}, {
+			// if user in socket count is 1 then updating unread message
+			if(loggedinUser <= 1){
+				await User.updateOne({
+					$and :[{"friends.roomname": roomname}, {"isOnline" : false}]},{
+						$set:{
+						 "friends.$.unreadMsg": count + 1
+						}
+					});
+			} 
+			// setting last message at both User 
+			await User.updateMany({"friends.roomname": roomname}, {
 				$set:
 				 {
 				 	"friends.$.lastmsg": message
 				 }
 			});
 			if(!curuser) return
-	 		const time = moment().format('M/D/YYYY H:mm').valueOf();
+	 	    const time = moment().format('M/D/YYYY H:mm').valueOf();
 			const unixtime = moment(time, "M/D/YYYY H:mm").unix();
 			io.to(curuser.roomname).emit('message', {user:loginuser, text:message, time:unixtime});
 			await Message.findOneAndUpdate({roomname:roomname},{
