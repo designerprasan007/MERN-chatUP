@@ -46,7 +46,7 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 	const userPic = friends[0].user.userPic;
 	const preMessages = useSelector(state => state.MessageReducer);
 	const {error} = useSelector(state => state.MessageReducer);
-	const ENDPOINT = env.SOCKET_END_POINT; 
+	const ENDPOINT = 'https://demo.conitor.in:5000'; 
 	const {name, room} = presentUser;
 
 
