@@ -1,7 +1,6 @@
 import {useState, useEffect, useRef} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { Modal } from 'react-bootstrap'
-import env from "react-dotenv";
 
 	
 import {NewMessageState} from '../../../actions/MessageAction';
