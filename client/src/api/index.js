@@ -1,8 +1,9 @@
 import axios from 'axios';
+import env from "react-dotenv";
 
 
-const AuthURL= 'https://demo.conitor.in:5000/';
-const MessageURl = 'https://demo.conitor.in:5000/api/messages';
+const AuthURL= env.AUTH_URL;
+const MessageURl = env.MESSAGE_URL;
 
 export const RegisterUser = (usernumber) => axios.post(`${AuthURL}auth/users/newuser`, {usernumber})
 

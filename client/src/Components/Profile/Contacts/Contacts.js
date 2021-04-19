@@ -25,9 +25,11 @@ const Contacts = ({getUser, userdata, handleAddShow}) =>{
 											data-room={friend?.roomname} 
 											data-pic={friend?.user?.userPic}
 											data-num={friend?.friendnum}
-											data-bio={friend?.user?.userbio}>
+											data-chatname = {friend?.user?.randomName}
+											data-bio={friend?.user?.userbio}
+											>
 											{friend?.friendname}</span>
-											<span className="UnreadMsg">{friend?.unreadMsg}</span>
+											<span className="UnreadMsg text-center">{friend?.unreadMsg}</span>
 											<br/>
 											<br/>
 											<span className="pl-3 pt-2 lstMsg">{friend?.lastmsg}</span>

@@ -26,53 +26,65 @@ const Messaging = (io) =>{
 			const loggedinUser = Object.values(availableUser).length;
 
 			// getting db data of offline User
+			console.log(roomname, 'roomname');
 			const users = await User.findOne({$and :[{"friends.roomname": roomname}, {"isOnline" : false}]});
-			let count = users.friends[0].unreadMsg;
 
-			// if user in socket count is 1 then updating unread message
-			if(loggedinUser <= 1){
-				await User.updateOne({
-					$and :[{"friends.roomname": roomname}, {"isOnline" : false}]},{
-						$set:{
-						 "friends.$.unreadMsg": count + 1
-						}
-					});
-			} 
-			// setting last message at both User 
-			await User.updateMany({"friends.roomname": roomname}, {
-				$set:
-				 {
-				 	"friends.$.lastmsg": message
-				 }
-			});
-			if(!curuser) return
-	 	    const time = moment().format('M/D/YYYY H:mm').valueOf();
-			const unixtime = moment(time, "M/D/YYYY H:mm").unix();
-			io.to(curuser.roomname).emit('message', {user:loginuser, text:message, time:unixtime});
-			await Message.findOneAndUpdate({roomname:roomname},{
-				$push:{
-					messages:{
-						sender:name,
-						receiver:loginuser,
-						message:message,
-						roomname: roomname,
-						created: unixtime 
-					}}
-				})
-			cb();
+			if(users !== null){
+				let count = users.friends[0].unreadMsg;
+
+				// if user in socket count is 1 then updating unread message
+				if(loggedinUser <= 1){
+					await User.updateOne({
+						$and :[{"friends.roomname": roomname}, {"isOnline" : false}]},{
+							$set:{
+							 "friends.$.unreadMsg": count + 1
+							}
+						});
+				} 
+				// setting last message at both User 
+				await User.updateMany({"friends.roomname": roomname}, {
+					$set:
+					 {
+					 	"friends.$.lastmsg": message
+					 }
+				});
+				if(!curuser) return
+		 	    const time = moment().format('M/D/YYYY H:mm').valueOf();
+				const unixtime = moment(time, "M/D/YYYY H:mm").unix();
+				io.to(curuser.roomname).emit('message', {user:loginuser, text:message, time:unixtime});
+				await Message.findOneAndUpdate({roomname:roomname},{
+					$push:{
+						messages:{
+							sender:name,
+							receiver:loginuser,
+							message:message,
+							roomname: roomname,
+							created: unixtime 
+						}}
+					})
+				cb();
+			}
 		});
 
 		// video call 
 		socket.on('MakeVideoCall', async(msg) =>{
-			const {roomname, loginuser} = msg;
-			console.log(roomname, loginuser);	
+			let {roomname, loginuser} = msg;
 			const curuser = VideoCallUser(roomname, loginuser);
+			
+			const availableUser = getUserInRoom(roomname);
+			const loggedinUser = Object.values(availableUser).length;
+
+			console.log(loggedinUser, 'length');
+			if(loggedinUser <= 1){
+				roomname = roomname.trim();
+				io.to(roomname).emit('UserNotAvaiable');
+			}
+
 			if(!curuser) return
 			io.to(curuser[0].roomname).emit('NewVideoCall', {user:curuser[0].name, caller:loginuser, id:curuser[0].id});
 		})
 
 		socket.on('calluser', ({userToCall, signalData, from, name }) =>{
-			console.log(userToCall, 'asa');
 			io.to(userToCall).emit('calluser',{signal:signalData, from:from, name:name})
 		})
 
@@ -104,6 +116,8 @@ const Messaging = (io) =>{
 			const {roomname, loginuser} = data;
 			console.log(roomname, loginuser);	
 			const curuser = AcceptedCall(roomname, loginuser);
+			console.log(curuser);
+			if(!curuser) return
 			io.to(curuser[0].id).emit('readytoReceive')
 			console.log(curuser)
 		})

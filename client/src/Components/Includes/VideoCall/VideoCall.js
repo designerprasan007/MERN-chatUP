@@ -38,6 +38,9 @@ const VideoCall = ({socket, roomname, loginuser, remoteCall}) =>{
 			setReadyToReceive(true);
 
 		})
+		socket.on('UserNotAvaiable', () =>{
+			console.log('UserNotAvaiable')
+		})
 	},[socket])
 
 	/* when all the user hit thec all button updates the Class state

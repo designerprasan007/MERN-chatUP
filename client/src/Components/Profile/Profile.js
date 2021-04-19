@@ -14,17 +14,17 @@ import ChatSection from './ChatSection/ChatSection';
 import Enterpass from '../Includes/Enterpass';
 import AddUser from '../Includes/AddUser/AddUser'
 import './Profile.css'
-
 const Profile = ({history}) =>{
 	const dispatch = useDispatch();
 
-	const [presentUser, setPresentUser] = useState({name: '', room:'', profilePic:'', userbio:'', userNumber:''})
+	const [presentUser, setPresentUser] = useState({name: '', room:'', profilePic:'', userbio:'', userNumber:'', chatName:''});
 	const [showChat, setShowChat] = useState(false);
 	const [showpassmodal, setShowPassModal] = useState(false);
 	const [showaddusermodal, setShowAdduserModal] = useState(false);
 
-
 	const {userdata} = useSelector((state) => state.AuthReducer);
+
+
 
 	useEffect(() =>{
 		if(userdata?.user?.password === "false"){
@@ -47,9 +47,10 @@ const Profile = ({history}) =>{
 		const profilePic = e.target.getAttribute('data-pic');
 		const userbio = e.target.getAttribute('data-bio');
 		const userNumber = e.target.getAttribute('data-num');
+		const chatName = e.target.getAttribute('data-chatname');
 
 		dispatch(GetMessageFunc(room, 0, 20));
-		setPresentUser({...presentUser, room:room, name:e.target.innerHTML, profilePic:profilePic, userbio:userbio, userNumber:userNumber});
+		setPresentUser({...presentUser, room:room, name:e.target.innerHTML, profilePic:profilePic, userbio:userbio, userNumber:userNumber, chatName:chatName});
 		setShowChat(true)
 	}
 

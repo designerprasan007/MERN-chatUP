@@ -25,7 +25,7 @@ const addNewUser = async (req, res) =>{
 const LoginUser = async(req, res) =>{
 	const { usernumber, password } = req.body;
 	try{
-		const checkuser = await User.findOne({usernumber}).populate('friends.user','userPic userbio');
+		const checkuser = await User.findOne({usernumber}).populate('friends.user','userPic userbio randomName');
 		if(!checkuser) return res.status(401).json({success:false, message:'Unauthorized'});
 
 		const isMatch =  await bcryptjs.compare(password, checkuser.password); 
@@ -83,7 +83,7 @@ const updateUser = async(req, res) =>{
 			 },
 		 	 {
 				new:true
-			}).populate('friends.user','userPic userbio')
+			}).populate('friends.user','userPic userbio randomName')
 			sendToken(update, 200, res)
 			}
 		}
@@ -138,7 +138,7 @@ const addFriend = async(req, res) =>{
 			}
 		},{
 			new:true
-		}).populate('friends.user','userPic userbio');
+		}).populate('friends.user','userPic userbio randomName');
 
 		const addmemeber = await Message.create({user1, user2, roomname})
 		sendToken(update, 200, res)
@@ -191,9 +191,9 @@ const updatePassword = async(req, res) =>{
 // 					friendnum:preUser.friends.friendnum,
 // 					roomname: preUser.friends.roomname,
 // 					user: preUser.friends.user
-// 				}
+// 				 }
 // 			}
-// 		}).populate('friends.user','userPic userbio')
+// 		}).populate('friends.user','userPic userbio randomName')
 
 // 		console.log(update);
 

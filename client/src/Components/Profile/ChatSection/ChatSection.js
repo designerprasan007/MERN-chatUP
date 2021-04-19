@@ -1,6 +1,7 @@
 import {useState, useEffect, useRef} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { Modal } from 'react-bootstrap'
+import env from "react-dotenv";
 
 	
 import {NewMessageState} from '../../../actions/MessageAction';
@@ -45,7 +46,7 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 	const userPic = friends[0].user.userPic;
 	const preMessages = useSelector(state => state.MessageReducer);
 	const {error} = useSelector(state => state.MessageReducer);
-	const ENDPOINT = 'https://demo.conitor.in:5000'; 
+	const ENDPOINT = env.SOCKET_END_POINT; 
 	const {name, room} = presentUser;
 
 
