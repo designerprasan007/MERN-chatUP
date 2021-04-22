@@ -16,6 +16,8 @@ import ChatBox from '../../Includes/ChatBox/ChatBox';
 import UserDetail from '../../Includes/UserDetail/UserDetail';
 
 import msgtone from "../../../Assets/Tones/msgtone.mp3";
+import incomingTone from "../../../Assets/Tones/incoming_call.mp3";
+import outgoingTone from "../../../Assets/Tones/outgoing_call.mp3"
 
 import ChatHeader from '../../Includes/ChatHeader';
 import VideoCall from '../../Includes/VideoCall/VideoCall';
@@ -26,7 +28,8 @@ let socket;
 const ChatSection = ({presentUser, hideChat, userdata}) =>{
 	const dispatch = useDispatch();
     const audio_tag = useRef(null);
-    
+    const incoming_call = useRef(null);
+    const outgoing_call = useRef(null);
 
 
 	const [roomname, setRoomname] = useState('');
@@ -67,6 +70,25 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 	useEffect(() =>{
 		socket.on('NewVideoCall', (callData) =>{
 			setCall({isReceivingCall: true});
+			const audioEl = document.getElementsByClassName("incomingcalltone")[0]
+			if(audioEl !== undefined){
+				audioEl.play()	
+			}
+		})
+		// socket event on call rejected by the opposite user
+		socket.on('callRejected', () =>{
+			const audioEl = document.getElementsByClassName("outgoingcalltone")[0]
+			if(audioEl !== undefined){
+				audioEl.pause()	
+			}
+		})
+		// called ends call by himself
+		socket.on('callDisconnectedself', (userToCall) =>{
+			setCall({isReceivingCall: false});
+			const audioEl = document.getElementsByClassName("outgoingcalltone")[0]
+			if(audioEl !== undefined){
+				audioEl.pause()	
+			}
 		})
 	},[])
 
@@ -107,17 +129,34 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 
 	const videocall = () =>{
 		setVideoSection(true);
+		const audioEl = document.getElementsByClassName("outgoingcalltone")[0]
+			if(audioEl !== undefined){
+				audioEl.play()	
+			}
 	}
 
 	const AnswerCall = () =>{
 		setVideoSection(true);
 		setRemoteCall(true);
-		socket.emit('readyToAccept', {roomname:roomname, loginuser})
-	}
+		socket.emit('readyToAccept', {roomname:roomname, loginuser});
+		const audioEl = document.getElementsByClassName("incomingcalltone")[0]
+			if(audioEl !== undefined){
+				audioEl.pause()	
+		}
 
+	}
+	const RejectCall = () =>{
+		setCall({isReceivingCall: false});
+		socket.emit('CallRejetced', {roomname:roomname, loginuser});
+		const audioEl = document.getElementsByClassName("incomingcalltone")[0]
+		if(audioEl !== undefined){
+			audioEl.pause()	
+		}
+	}
 
 	return(
 		<>	
+			<audio className="outgoingcalltone" ref={outgoing_call} src={outgoingTone} />
 			{!videoSection ? (
 				<>
 					<audio className="msgtone" ref={audio_tag} src={msgtone} />
@@ -130,11 +169,13 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 						<ChatHeader videocall={videocall} showUserdetail={showUserdetail} userPic={userPic} staticImg={staticImg} removeSocket={removeSocket} presentUser={presentUser} />
 					</div>
 					{call.isReceivingCall && (
-							<div>
-								<h1>{presentUser.name} is calling</h1>
-								<button onClick={AnswerCall}>Answer</button>
-							</div>		
-						)}
+						<div className="IncominCallNotification text-center pl-3 py-2">
+							<audio className="incomingcalltone" ref={incoming_call} src={incomingTone} />
+							<h3>Incoming Video Call</h3>
+							<button className="btn btn-sm btn-success mx-2" onClick={AnswerCall}>Answer</button>
+							<button className="btn btn-sm btn-danger" onClick={RejectCall}>Reject</button>
+						</div>
+					)}						
 					<div className="chatSection" id="chatSection">
 						<ChatBox message={preMessages} msgover = {error} friends={friends}  loginuser={loginuser} presentUser={presentUser} socketmessage={messages} />
 					</div>

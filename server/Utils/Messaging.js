@@ -26,7 +26,6 @@ const Messaging = (io) =>{
 			const loggedinUser = Object.values(availableUser).length;
 
 			// getting db data of offline User
-			console.log(roomname, 'roomname');
 			const users = await User.findOne({$and :[{"friends.roomname": roomname}, {"isOnline" : false}]});
 
 			if(users !== null){
@@ -74,7 +73,6 @@ const Messaging = (io) =>{
 			const availableUser = getUserInRoom(roomname);
 			const loggedinUser = Object.values(availableUser).length;
 
-			console.log(loggedinUser, 'length');
 			if(loggedinUser <= 1){
 				roomname = roomname.trim();
 				io.to(roomname).emit('UserNotAvaiable');
@@ -101,7 +99,15 @@ const Messaging = (io) =>{
 			const userToCall = data.to;
 			const roomname = data.roomname;
 			const user = AnswerCall(userToCall, roomname);
-			io.to(user[0].roomname).emit('callDisconnected',data.userToCall)
+			io.to(user[0].roomname).emit('callDisconnected')
+		})
+
+		//call ended by self
+		socket.on('callEndedbySelf', (data) =>{
+			const userToCall = data.to;
+			const roomname = data.roomname;
+			const user = AnswerCall(userToCall, roomname);
+			io.to(user[0].roomname).emit('callDisconnectedself')
 		})
 
 		socket.on('disconnect', () =>{
@@ -114,14 +120,19 @@ const Messaging = (io) =>{
 		})
 		socket.on('readyToAccept', (data)=>{
 			const {roomname, loginuser} = data;
-			console.log(roomname, loginuser);	
 			const curuser = AcceptedCall(roomname, loginuser);
-			console.log(curuser);
 			if(!curuser) return
 			io.to(curuser[0].id).emit('readytoReceive')
-			console.log(curuser)
 		})
 	
+		socket.on('CallRejetced', (data)=>{
+			const {roomname, loginuser} = data;
+			const curuser = AcceptedCall(roomname, loginuser);
+			if(!curuser) return
+			io.to(curuser[0].id).emit('callRejected')
+		})
+	
+
 	})
 }
 

@@ -59,7 +59,7 @@ const Profile = ({history}) =>{
 	}
 	return(
 			<div>
-				<Modal show={showpassmodal} onHide={handleClose}>
+				<Modal show={showpassmodal} onHide={handleClose} backdrop="static">
 			        <Modal.Header closeButton>
 			          <Modal.Title>Password</Modal.Title>
 			        </Modal.Header>

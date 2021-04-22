@@ -5,6 +5,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import Header from '../Includes/Header';
 import {AddUserDataAction} from '../../actions/AuthAction';
 
+import Loader from "react-loader-spinner";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
+
 import staticImg from '../../Assets/Images/staticpic.png';
 
 import './UserForm.css';
@@ -13,6 +17,8 @@ const UserForm = ({history}) =>{
 	const dispatch = useDispatch();
 	const [userformdata, setFormData] = useState({username: '', userbio:''});
 	const [show, setShow] = useState(false);
+	const [loader, setLoader] = useState(false);
+
     const [{alt, src, imgdata}, setImg] = useState({
   	      	src: staticImg,
     	    alt: 'Upload an Image',
@@ -59,6 +65,7 @@ const UserForm = ({history}) =>{
     	formdata.append('bio', userformdata.userbio);
     	formdata.append('profilepic', imgdata);
     	dispatch(AddUserDataAction(formdata, history));
+		setLoader(true);
     }
 
 
@@ -92,6 +99,9 @@ const UserForm = ({history}) =>{
 			        </Modal.Footer>
 		      	</Modal>	
 		      	<section className="container pt-5 text-center">
+		      	{loader &&(
+					<Loader type="ThreeDots" color="#007bff" height={50} width={50} timeout={10000} />
+				)}
 			      	<form className="col-md-6 offset-md-3">
 					  <div className="form-group">
 					    <input type="text" value={userformdata.username || ''} onChange={(e) => setFormData({...userformdata, username:e.target.value})} className="form-control" placeholder="Enter your Name" />
