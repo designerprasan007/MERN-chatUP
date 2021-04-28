@@ -1,13 +1,12 @@
 import {useState, useEffect, useRef} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { Modal } from 'react-bootstrap'
-
 	
 import {NewMessageState} from '../../../actions/MessageAction';
 
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faPaperPlane} from '@fortawesome/free-solid-svg-icons'
 import io from 'socket.io-client';
+import InputEmoji from "react-input-emoji";
+
 
 import staticImg from '../../../Assets/Images/staticpic.png';
 
@@ -35,8 +34,12 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 	const [roomname, setRoomname] = useState('');
 	const [messages, setMessages] = useState([]);
 	const [message, setMessage] = useState('');
+	
+
 	const [showpassmodal, setShowPassModal] = useState(false);
 	
+	// emoji state
+
 	// video call related
 	const [videoSection, setVideoSection] = useState(false)
 	const [call, setCall] = useState({})
@@ -107,13 +110,12 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 	})
 
 
-	const sendMessage = (e) =>{
-        e.preventDefault();
+    function handleOnEnter(message) {
         if(message){
         	const messagedata = {message, roomname, name, loginuser };
             socket.emit('sendMessage',messagedata, () => setMessage(''));
         }
-    }
+	 }
 
 	const removeSocket = (e) =>{
 		e.preventDefault();
@@ -154,6 +156,8 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 		}
 	}
 
+
+
 	return(
 		<>	
 			<audio className="outgoingcalltone" ref={outgoing_call} src={outgoingTone} />
@@ -179,11 +183,14 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 					<div className="chatSection" id="chatSection">
 						<ChatBox message={preMessages} msgover = {error} friends={friends}  loginuser={loginuser} presentUser={presentUser} socketmessage={messages} />
 					</div>
-					<div className="messageForm">
-						<input value={message} onChange={(event) => setMessage(event.target.value)} onKeyPress={event => event.key === 'Enter' ? sendMessage(event):'null' } className="MsgInput" />
-						<button className="btn btn-sm btn-primary" onClick={(e) => sendMessage(e)}>
-							<FontAwesomeIcon icon={faPaperPlane} />
-						</button>
+					<div className="messageForm text-white">
+						<InputEmoji
+					      value={message}
+					      onChange={setMessage}
+					      cleanOnEnter
+					      onEnter={handleOnEnter}
+					      placeholder="Type a message"
+					    />
 					</div>
 				</>
 				):(

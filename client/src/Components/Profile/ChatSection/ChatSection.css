@@ -12,7 +12,8 @@
   background-color:black;
 }
 .MsgInput{
-  width: 95%;
+  width: 90%;
+  font-size: 20px;
 }
 
 .headerIcons{
@@ -30,6 +31,9 @@
   font-size: 15px;
   width: 100%;
   color:white;
+}
+.emoji-picker-react{
+  width: 100% !important;
 }
 @media only screen and (min-width: 767px) {
     .exitBtn {
