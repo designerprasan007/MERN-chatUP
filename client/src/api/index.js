@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 
-const AuthURL= 'https://demo.conitor.in:5000/';
-const MessageURl = 'https://demo.conitor.in:5000/api/messages';
+const AuthURL= 'http://localhost:5000/';
+const MessageURl = 'http://localhost:5000/api/messages';
 
 export const RegisterUser = (usernumber) => axios.post(`${AuthURL}auth/users/newuser`, {usernumber})
 

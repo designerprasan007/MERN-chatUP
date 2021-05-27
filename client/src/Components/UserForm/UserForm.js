@@ -33,7 +33,7 @@ const UserForm = ({history}) =>{
     		setFormData({...userformdata, userbio:userdata.user?.userbio, username:userdata?.user?.username})
 			if(userdata?.user?.userpic){
 				setImg({
-          	  		src: `https://demo.conitor.in:5000/${userdata?.user?.userpic}`,
+          	  		src: `http://localhost:5000/${userdata?.user?.userpic}`,
         		});	
 			}	
     	}

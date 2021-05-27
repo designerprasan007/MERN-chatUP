@@ -10,11 +10,6 @@ const https = require('https');
 const helmet = require('helmet');
 const fs = require('fs');
 
-const options = {
-	key: fs.readFileSync('/etc/letsencrypt/live/demo.conitor.in/privkey.pem'),
-	cert: fs.readFileSync('/etc/letsencrypt/live/demo.conitor.in/cert.pem')
-}
-
 const PORT = process.env.PORT || 5000;
 
 const app = express();
@@ -35,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'ProfilePic')));
 app.use('/api/messages', messagerouter);
 app.use('/auth/users', userRouter);
 
-const server = https.createServer(options, app);
+const server = http.createServer(app);
 
 
 const io = socketio(server);

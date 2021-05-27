@@ -51,7 +51,7 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 	const userPic = friends[0].user.userPic;
 	const preMessages = useSelector(state => state.MessageReducer);
 	const {error} = useSelector(state => state.MessageReducer);
-	const ENDPOINT = 'https://demo.conitor.in:5000'; 
+	const ENDPOINT = 'http://localhost:5000'; 
 	const {name, room} = presentUser;
 
 
@@ -92,6 +92,20 @@ const ChatSection = ({presentUser, hideChat, userdata}) =>{
 			if(audioEl !== undefined){
 				audioEl.pause()	
 			}
+		})
+
+		socket.on('UserNotAvaiable', () =>{
+			console.log('UserNotAvaiable');
+			const audioEl = document.getElementsByClassName("outgoingcalltone")[0]
+			if(audioEl !== undefined){
+				audioEl.pause()	
+			}
+		})
+		socket.on('callaccepted', (signal) =>{
+		const audioEl = document.getElementsByClassName("outgoingcalltone")[0]
+			if(audioEl !== undefined){
+				audioEl.pause()	
+			}	
 		})
 	},[])
 

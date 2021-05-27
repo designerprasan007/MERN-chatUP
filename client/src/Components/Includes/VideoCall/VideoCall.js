@@ -36,10 +36,12 @@ const VideoCall = ({socket, roomname, loginuser, remoteCall}) =>{
 			setIdtoCall(id);
 		})
 		socket.on('readytoReceive',() =>{
-		setReadyToReceive(true);
+			console.log('ready to isReceivingCall');
+			setReadyToReceive(true);
 
 		})
 		socket.on('UserNotAvaiable', () =>{
+			console.log('UserNotAvaiable');
 			const audioEl = document.getElementsByClassName("busytoneClass")[0]
 			if(audioEl !== undefined){
 				audioEl.play()	
@@ -86,6 +88,7 @@ const VideoCall = ({socket, roomname, loginuser, remoteCall}) =>{
 			setCallAccepted(true)
 			peer.signal(signal)
 		})
+		setReadyToReceive(false)
 
 		connectionRef.current = peer;
 
@@ -114,14 +117,15 @@ const VideoCall = ({socket, roomname, loginuser, remoteCall}) =>{
 		window.location.reload();
 		
 	}
+	console.log(readytoReceive, 'remoteCall');
 	return(
 		<>
 			<audio className="busytoneClass" ref={busy_tone} src={Busy_tone} />
 			{!remoteCall && readytoReceive && (
-				<button className="rounded-circle btn btn-sm btn-primary callNowBtn" onClick={() => callUser(idtocall)}>Call now</button>
+				<button className="rounded-circle btn btn-sm btn-primary callNowBtnacpt" onClick={() => callUser(idtocall)}>Call now</button>
 				)}
 			{call.isReceivingCall && !callAccpted && (
-				<button className="rounded-circle btn btn-sm btn-success callNowBtn" onClick={AnswerCall} >Accept Call</button>
+				<button className="rounded-circle btn btn-sm btn-success Btnacpt" onClick={AnswerCall} >Accept Call</button>
 				)}
 			{callAccpted && (
 				<button className="rounded-circle btn btn-sm btn-danger callNowBtn" onClick={leaveCall} >End Call</button>

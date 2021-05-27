@@ -17,7 +17,7 @@ const Contacts = ({getUser, userdata, handleAddShow}) =>{
 								<li className="list-group-item" key={key}>
 								<div className="row no-gutters">
 									<div className="col-md-2 col-2">
-										<img src={userPic ? `https://demo.conitor.in:5000/${friend.user.userPic}` :  staticImg} alt="img" className="userpic" />
+										<img src={userPic ? `http://localhost:5000/${friend.user.userPic}` :  staticImg} alt="img" className="userpic" />
 									</div>
 									<div className="col-md-10 col-10">
 										<section  className="selectContact" onClick={getUser}>

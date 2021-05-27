@@ -10,7 +10,7 @@ import './UserDetail.css';
 const UserDetail = ({handleClose, presentUser}) =>{
     return(
     	<>
-	    	<div className="userimg" style={{ backgroundImage: `url(${presentUser?.profilePic ? `https://demo.conitor.in:5000/${presentUser.profilePic}` :  staticImg}`}}>
+	    	<div className="userimg" style={{ backgroundImage: `url(${presentUser?.profilePic ? `http://localhost:5000/${presentUser.profilePic}` :  staticImg}`}}>
 				<span className="closeUserdetail" onClick={handleClose}><FontAwesomeIcon icon={faArrowLeft} /></span>
 			</div>
 			<div className="UserDetail">	

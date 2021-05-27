@@ -75,7 +75,8 @@ const Messaging = (io) =>{
 
 			if(loggedinUser <= 1){
 				roomname = roomname.trim();
-				io.to(roomname).emit('UserNotAvaiable');
+				io.to(availableUser[0].id).emit('UserNotAvaiable');
+				return
 			}
 
 			if(!curuser) return
@@ -91,7 +92,8 @@ const Messaging = (io) =>{
 			const userToCall = data.to;
 			const roomname = data.roomname;
 			const user = AnswerCall(userToCall, roomname);
-			io.to(user[0].id).emit('callaccepted',data.signal)
+			console.log(user)
+			io.to(user[0].roomname).emit('callaccepted',data.signal)
 		})
 
 		// call ended
@@ -122,7 +124,8 @@ const Messaging = (io) =>{
 			const {roomname, loginuser} = data;
 			const curuser = AcceptedCall(roomname, loginuser);
 			if(!curuser) return
-			io.to(curuser[0].id).emit('readytoReceive')
+				console.log(curuser, 'readt to AcceptedCall');
+			io.to(curuser[0].roomname).emit('readytoReceive')
 		})
 	
 		socket.on('CallRejetced', (data)=>{

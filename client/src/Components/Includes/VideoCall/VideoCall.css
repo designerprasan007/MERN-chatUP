@@ -17,3 +17,15 @@
     left: 45%;
     z-index: 999;
 }
+.callNowBtnacpt{
+    position: absolute;
+    top: 90%;
+    left: 20%;
+    z-index: 999;   
+}
+.Btnacpt{
+    position: absolute;
+    top: 90%;
+    left: 20%;
+    z-index: 999;    
+}
